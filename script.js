@@ -92,24 +92,29 @@ function addRoomTypeRow(isDefault = false) {
   row.className = "linear-horizontal flex items-center gap-2 flex-nowrap";
 
   row.innerHTML = `
-    <input type="text"
-           class="roomType w-0 flex-[1.2] min-w-[90px] border border-gray-300 rounded-md p-1.5 text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-           placeholder="객실 타입">
+  <input type="text"
+         class="roomType w-0 flex-[1.2] min-w-[90px]
+                border border-gray-300 rounded-md p-1.5 text-sm
+                text-center leading-normal"
+         placeholder="객실 타입">
 
-    <input type="number"
-           class="roomCount w-0 flex-[0.7] min-w-[70px] border border-gray-300 rounded-md p-1.5 text-sm text-right focus:ring-2 focus:ring-blue-400 focus:outline-none"
-           placeholder="객실 수">
+  <input type="number"
+         class="roomCount w-0 flex-[0.7] min-w-[70px]
+                border border-gray-300 rounded-md p-1.5 text-sm text-center leading-normal"
+         placeholder="객실 수">
 
-    <input type="number"
-           class="unitHeatingArea w-0 flex-[1] min-w-[90px] border border-gray-300 rounded-md p-1.5 text-sm text-right focus:ring-2 focus:ring-blue-400 focus:outline-none"
-           placeholder="단위 난방 면적">
+  <input type="number"
+         class="unitHeatingArea w-0 flex-[1] min-w-[90px]
+                border border-gray-300 rounded-md p-1.5 text-sm text-center leading-normal"
+         placeholder="단위 면적">
 
-    <button type="button"
-            class="removeRowBtn flex-none px-2.5 py-1.5 text-sm rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
-            ${isDefault ? "disabled" : ""}>
-      삭제
-    </button>
-  `;
+  <button type="button"
+          class="removeRowBtn flex-none px-2.5 py-1.5 text-sm rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
+          ${isDefault ? "disabled" : ""}>
+    삭제
+  </button>
+`;
+
 
   if (!isDefault) {
     row.querySelector(".removeRowBtn").onclick = () => row.remove();
@@ -378,3 +383,4 @@ window.onload = () => {
   setupEventHandlers();
 
 }; 
+
