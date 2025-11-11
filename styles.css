@@ -1,0 +1,200 @@
+body {
+    background: #f5f5f5;
+    font-family: 'Noto Sans KR', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* overflow: hidden; 스크롤 제거 해제 */
+  }
+  
+  #heatingCalculator {
+    max-width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    /* overflow: hidden; 스크롤 제거 해제 */
+  }
+  
+  .page {
+    display: block;
+  }
+  
+  .fixed-title {
+    background: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 16px 16px 8px 16px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .scrollable {
+    padding: 16px;
+    overflow-y: auto;
+    max-height: 70vh;
+  }
+  
+  label {
+    display: block;
+    margin-top: 16px;
+    font-weight: 500;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  input[disabled], .result {
+    background: #efefef;
+    color: #333;
+  }
+  
+  button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+  button:last-child {
+    margin-right: 0;
+  }
+  button:hover {
+    background: #1565c0;
+  }
+  
+  .bottom-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 24px;
+    gap: 8px;
+  }
+  
+  .warning {
+    color: #ff0000;
+    font-size: 14px;
+    margin-right: 8px;
+  }
+  
+  .example {
+    background: #efefef;
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 8px;
+    color: #222;
+    font-size: 14px;
+  }
+  
+  .hint {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+  }
+  
+  .section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 16px 0;
+  }
+  
+  #accessoryItems {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  #accessoryItems label {
+    margin-top: 8px;
+    font-weight: 400;
+    display: inline-block;
+    width: 160px;
+  }
+  #accessoryItems input[type="number"] {
+    width: 80px;
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  /* 버튼 그룹(수평) */
+  .linear-horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .linear-horizontal input.roomType {
+    width: 120px !important;
+  }
+  .linear-horizontal input.roomCount {
+    width: 140px !important;
+  }
+  .linear-horizontal input.unitHeatingArea {
+    width: 200px !important;
+  }
+  
+  .btn {
+    display: inline-block;
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #1976d2;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  .btn:hover { filter: brightness(1.05); }
+  .btn:active { transform: scale(0.98); }
+  .btn.back::before { content: "◀ "; }
+  
+  /* 반응형 디자인 */
+  @media (max-width: 800px) {
+    #heatingCalculator {
+      max-width: 98vw;
+      margin: 0;
+      border-radius: 0;
+    }
+    .scrollable {
+      max-height: 60vh;
+      padding: 8px;
+    }
+    .fixed-title {
+      padding: 12px 8px 8px 8px;
+      font-size: 16px;
+    }
+  }
+  

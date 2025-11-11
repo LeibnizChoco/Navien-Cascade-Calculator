@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Navien 계산기 - 난방</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Pretendard', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div id="heatingCalculator" class="max-w-[700px] mx-auto bg-white rounded-2xl shadow-lg p-6 mt-6 mb-10">
+
+    <!-- ========== Page 1 ========== -->
+    <section class="page" id="page1">
+      <div class="fixed-title text-xl font-bold text-gray-900 border-b pb-3 mb-4">[1. 건물 정보 입력]</div>
+      <div class="scrollable space-y-4">
+
+        <!-- 경고 스팬 (script.js가 접근) -->
+        <span id="warning" class="text-red-600 text-sm hidden"></span>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">건물 용도 구분</label>
+          <select id="buildingPurposeType" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"></select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">건물 용도</label>
+          <select id="buildingPurpose" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"></select>
+        </div>
+
+        <div id="buildingPurposeExample" class="example hidden text-sm text-gray-600">예시가 여기에 표시됩니다</div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">건물의 가로폭(m)</label>
+            <input id="buildingWidth" type="number" placeholder="숫자를 입력하세요(m)"
+                   class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">건물의 세로폭(m)</label>
+            <input id="buildingLength" type="number" placeholder="숫자를 입력하세요(m)"
+                   class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">건물의 높이(m)</label>
+            <input id="buildingHeight" type="number" placeholder="숫자를 입력하세요(m)"
+                   class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">전체 난방 면적(㎡)</label>
+          <div id="totalHeatingArea" class="result p-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-700">
+            객실 정보 입력 후 '총 면적 계산'을 눌러주세요.
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">객실 정보 입력</label>
+          <div id="roomTypeContainer" class="mb-2"></div>
+          <div class="bottom-buttons flex gap-2">
+            <button id="addRoomType" class="flex-1 px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition">객실 타입 추가</button>
+            <button id="calculateTotalArea" class="flex-1 px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">총 면적 계산</button>
+          </div>
+        </div>
+
+        <div class="bottom-buttons flex justify-between mt-6">
+          <a id="prevPage1" class="btn px-4 py-2 rounded-md bg-gray-700 text-white hover:bg-gray-800 transition" href="home.html">이전</a>
+          <button id="nextPage1" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">다음</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Page 2 ========== -->
+    <section class="page" id="page2" style="display:none;">
+      <div class="fixed-title text-xl font-bold text-gray-900 border-b pb-3 mb-4">[2. 배관 정보 입력]</div>
+      <div class="scrollable space-y-4">
+
+        <!-- 1페이지에서 채워 넣는 필드 (숨김/읽기전용) -->
+        <input id="pipeBuildingPurpose" type="text" class="hidden" readonly>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">단위 난방 부하(kcal/hr)</label>
+          <input id="unitHeatingLoad" type="number"
+                 class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <div class="text-xs text-gray-500 mt-1">한국지역난방공사 열사용 시설 기준. 필요 시 수정 가능합니다.</div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">안전율(%)</label>
+          <input id="safetyRate" type="number"
+                 class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" value="20">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">배관 최장 루프 길이(m)</label>
+          <input id="longestPipeLength" type="number"
+                 class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" value="100">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">세대 내 난방 코일 길이(m)</label>
+          <input id="heatingCoilLength" type="number"
+                 class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" value="80">
+        </div>
+
+        <!-- 부속류 총 압력손실 (계산식에서 반드시 읽음) -->
+        <!-- 세대 내 부속류 총 압력 손실 -->
+<div>
+  <label class="block text-sm font-medium mb-1">세대 내 부속류 총 압력 손실</label>
+  <input id="totalPressureLoss" type="number" value="0" readonly
+         class="w-full border border-gray-300 rounded-md p-2 bg-gray-50 text-gray-700">
+  <div class="text-xs text-gray-500 mt-1">'부속류 항목 보기'를 눌러 체크된 항목만 합산됩니다.</div>
+
+  <button id="accessoryItemsBtn"
+          class="mt-2 px-3 py-1 rounded-md border bg-white hover:bg-gray-50">
+    부속류 항목 보기
+  </button>
+
+  <!-- 접히는 영역 -->
+  <div id="accessoryItems" class="mt-2 space-y-2 hidden">
+    <div class="flex items-center gap-2">
+      <input id="balancingValve" type="checkbox" class="h-4 w-4" checked>
+      <label for="balancingValve" class="flex-1">밸런싱 밸브</label>
+      <input id="balancingValveValue" type="number" value="3"
+             class="w-28 border rounded p-1 text-right">
+    </div>
+    <div class="flex items-center gap-2">
+      <input id="heatMeter" type="checkbox" class="h-4 w-4" checked>
+      <label for="heatMeter" class="flex-1">열량계</label>
+      <input id="heatMeterValue" type="number" value="1.5"
+             class="w-28 border rounded p-1 text-right">
+    </div>
+    <div class="flex items-center gap-2">
+      <input id="waterDistributor" type="checkbox" class="h-4 w-4" checked>
+      <label for="waterDistributor" class="flex-1">온수분배기</label>
+      <input id="waterDistributorValue" type="number" value="0.5"
+             class="w-28 border rounded p-1 text-right">
+    </div>
+    <div class="flex items-center gap-2">
+      <input id="tempControlValve" type="checkbox" class="h-4 w-4" checked>
+      <label for="tempControlValve" class="flex-1">온도조절밸브</label>
+      <input id="tempControlValveValue" type="number" value="1"
+             class="w-28 border rounded p-1 text-right">
+    </div>
+    <div class="flex items-center gap-2">
+      <input id="householdFlowValve" type="checkbox" class="h-4 w-4" checked>
+      <label for="householdFlowValve" class="flex-1">세대정유량밸브</label>
+      <input id="householdFlowValveValue" type="number" value="2"
+             class="w-28 border rounded p-1 text-right">
+    </div>
+  </div>
+</div>
+
+        <div class="bottom-buttons flex justify-between mt-6">
+          <button id="prevPage2" class="px-4 py-2 rounded-md bg-gray-700 text-white hover:bg-gray-800 transition">이전</button>
+          <button id="nextPage2" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">다음</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Page 3 ========== -->
+    <section class="page" id="page3" style="display:none;">
+      <div class="fixed-title text-xl font-bold text-gray-900 border-b pb-3 mb-4">[3. 난방 캐스케이드 검토 결과]</div>
+      <div class="scrollable space-y-2 text-sm text-gray-800">
+        <div class="row flex justify-between"><span>계산 난방 부하</span><span id="calculatedHeatingLoad">0</span></div>
+        <div class="row flex justify-between"><span>난방 캐스케이드 수량</span><span id="cascadeCount">0</span></div>
+        <div class="row flex justify-between"><span>난방 캐스케이드 용량</span><span id="cascadeCapacity">0</span></div>
+        <hr class="my-2">
+        <div class="row flex justify-between"><span>2차측 순환펌프 유량</span><span id="secondaryPumpFlow">0</span></div>
+        <div class="row flex justify-between"><span>2차측 순환펌프 양정</span><span id="secondaryPumpHead">0</span></div>
+        <div class="row flex justify-between"><span>예상 관수량</span><span id="totalWaterAmount">0</span></div>
+        <div class="row flex justify-between"><span>팽창탱크 최소 용량</span><span id="expansionTankVolume">0 ℓ</span></div>
+        <hr class="my-2">
+
+<!-- > 배관경 -->
+<div class="text-sm text-gray-800">
+  <div class="font-semibold mb-1">&gt; 배관경</div>
+
+  <!-- 1차측 -->
+  <div class="mt-1 text-gray-700">1차 주배관</div>
+  <div class="flex justify-between">
+    <span>계산내경</span>
+    <span id="calculatedPrimaryDiameter">-- mm</span>
+  </div>
+  <div class="flex justify-between">
+    <span>선정호칭</span>
+    <span id="selectedPrimaryDiameter">-- A</span>
+  </div>
+  <div class="flex justify-between">
+    <span>선정내경</span>
+    <span id="actualPrimaryDiameter">-- mm</span>
+  </div>
+
+  <!-- 2차측 -->
+  <div class="mt-3 text-gray-700">2차 주배관</div>
+  <div class="flex justify-between">
+    <span>계산내경</span>
+    <span id="calculatedSecondaryDiameter">-- mm</span>
+  </div>
+  <div class="flex justify-between">
+    <span>선정호칭</span>
+    <span id="selectedSecondaryDiameter">-- A</span>
+  </div>
+  <div class="flex justify-between">
+    <span>선정내경</span>
+    <span id="actualSecondaryDiameter">-- mm</span>
+  </div>
+</div>
+
+        <!-- 최소 수량 안내 메시지 -->
+        <span id="cascadeMinMessage" class="text-red-600 hidden"></span>
+        <div id="expansionTankWarning" class="text-red-600 whitespace-pre-line hidden"></div>
+
+        <div class="bottom-buttons flex justify-between mt-6">
+          <button id="prevPage3" class="px-4 py-2 rounded-md bg-gray-700 text-white hover:bg-gray-800 transition">이전</button>
+          <button id="reset" class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition">리셋</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

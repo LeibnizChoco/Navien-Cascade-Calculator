@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>급탕 캐스케이드 검토 - 방식2 (WSFU)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="max-w-[700px] mx-auto bg-white rounded-2xl shadow-lg p-6 mt-6 mb-10">
+    <h1 class="text-xl font-bold mb-4 text-gray-800">급탕 캐스케이드 검토 - 방식2 (WSFU)</h1>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">건물의 가로폭 (m)</label>
+        <input id="etWidth2" type="number" placeholder="예) 40"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">건물의 세로폭 (m)</label>
+        <input id="etLength2" type="number" placeholder="예) 20"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">건물의 지상 층수 (총)</label>
+          <input id="etAboveFloors2" type="number" placeholder="예) 10"
+                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">기계실 위치 (층)</label>
+          <input id="etMachineRoomFloor2" type="number" placeholder="예) 4"
+                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">세대 시작 층수 (층)</label>
+          <input id="etStartFloor2" type="number" placeholder="예) 3"
+                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">동시사용률 선택</label>
+          <select id="spinnerSimultaneous2"
+                  class="w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            <option>저</option>
+            <option>중</option>
+            <option>고</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="btnAddFixture2" class="bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300 transition">위생기구 추가</button>
+
+      <div id="containerFixtures2" class="space-y-2"></div>
+
+      <div class="flex justify-between mt-6">
+        <a href="dhw.html" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">이전</a>
+        <button id="btnMethod2Calculate" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">계산</button>
+      </div>
+
+      <hr class="my-6">
+
+      <h2 class="text-lg font-semibold mb-2">결과</h2>
+      <div class="space-y-2 text-sm text-gray-700">
+        <div class="flex justify-between"><span>급탕부하</span><span id="tv2EquipmentLoad">-- kcal/h</span></div>
+        <div class="flex justify-between"><span>캐스케이드 수량</span><span id="tv2EquipmentCascade">-- 대</span></div>
+        <div class="flex justify-between"><span>장비용량</span><span id="tv2EquipmentCapacity">-- kcal/h</span></div>
+        <div class="flex justify-between"><span>환탕펌프 유량</span><span id="tv2PumpFlow">-- Lpm</span></div>
+        <div class="flex justify-between"><span>환탕펌프 양정</span><span id="tv2PumpHead">-- m</span></div>
+        <div class="flex justify-between"><span>팽창탱크 용량</span><span id="tv2TankCapacity">-- L</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="dhw-method2.js"></script>
+</body>
+</html>

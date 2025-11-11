@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>급탕 캐스케이드 검토 - 방식1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="max-w-[700px] mx-auto bg-white rounded-2xl shadow-lg p-6 mt-6 mb-10">
+    <h1 class="text-xl font-bold mb-4 text-gray-800">급탕 캐스케이드 검토 - 방식1</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">가로폭(m)</label>
+        <input id="dhwWidth" type="number" placeholder="예: 40"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">세로폭(m)</label>
+        <input id="dhwLength" type="number" placeholder="예: 30"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">지상층수</label>
+        <input id="dhwAboveFloors" type="number" placeholder="예: 10"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">기계실 층</label>
+        <input id="dhwMachineFloor" type="number" placeholder="예: 1"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">입상 시작층</label>
+        <input id="dhwStartFloor" type="number" placeholder="예: 1"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">욕실1 수량</label>
+        <input id="dhwBath1" type="number" placeholder="예: 20"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">욕실2 수량</label>
+        <input id="dhwBath2" type="number" placeholder="예: 10"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">동시사용 수준</label>
+        <select id="dhwSim"
+                class="w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          <option>저</option>
+          <option>중</option>
+          <option>고</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="flex justify-between mt-6">
+      <a href="dhw.html"
+         class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">뒤로</a>
+      <button id="dhwCalcBtn"
+              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">계산</button>
+    </div>
+
+    <hr class="my-6">
+
+    <h2 class="text-lg font-semibold mb-2">결과</h2>
+    <div class="space-y-2 text-sm text-gray-700">
+      <div class="flex justify-between"><span>급탕부하</span><span id="resLoad">-</span></div>
+      <div class="flex justify-between"><span>캐스케이드 수량</span><span id="resCascadeCount">-</span></div>
+      <div class="flex justify-between"><span>장비용량</span><span id="resCapacity">-</span></div>
+      <div class="flex justify-between"><span>환탕펌프 유량</span><span id="resFlow">-</span></div>
+      <div class="flex justify-between"><span>환탕펌프 양정</span><span id="resHead">-</span></div>
+      <div class="flex justify-between"><span>급탕 주배관</span><span id="resMainPipe">-</span></div>
+      <div class="flex justify-between"><span>환탕 주배관</span><span id="resReturnPipe">-</span></div>
+      <div class="flex justify-between"><span>팽창탱크 용량</span><span id="resTank">-</span></div>
+    </div>
+  </div>
+
+  <script src="dhw-method1.js"></script>
+</body>
+</html>
