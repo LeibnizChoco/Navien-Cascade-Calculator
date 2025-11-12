@@ -23,38 +23,46 @@
                class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1">건물의 지상 층수 (총)</label>
-          <input id="etAboveFloors2" type="number" placeholder="예) 10"
-                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">기계실 위치 (층)</label>
+      <div>
+        <label class="block text-sm font-medium mb-1">건물의 지상 층수 (총)</label>
+        <input id="etAboveFloors2" type="number" placeholder="예) 10"
+               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+
+      <!-- 기계실 위치: 스피너(지하/지상/옥탑 등) + 층수 숫자 -->
+      <div>
+        <label class="block text-sm font-medium mb-1">기계실 위치</label>
+        <div class="grid grid-cols-2 gap-3">
+          <select id="spinnerMachineRoom2"
+                  class="border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            <!-- js가 DOMContentLoaded에서 옵션을 채워 넣음 -->
+          </select>
           <input id="etMachineRoomFloor2" type="number" placeholder="예) 4"
-                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                 class="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
         </div>
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1">세대 시작 층수 (층)</label>
-          <input id="etStartFloor2" type="number" placeholder="예) 3"
-                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">동시사용률 선택</label>
-          <select id="spinnerSimultaneous2"
-                  class="w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
-            <option>저</option>
-            <option>중</option>
-            <option>고</option>
+      <!-- 세대 시작 위치: 스피너(저/중/고층) + 시작층 숫자 -->
+      <div>
+        <label class="block text-sm font-medium mb-1">세대 시작 위치</label>
+        <div class="grid grid-cols-2 gap-3">
+          <select id="spinnerStartFloor2"
+                  class="border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
           </select>
+          <input id="etStartFloor2" type="number" placeholder="예) 3"
+                 class="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
         </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">동시사용률 선택</label>
+        <select id="spinnerSimultaneous2"
+                class="w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          <option>저</option><option>중</option><option>고</option>
+        </select>
       </div>
 
       <button id="btnAddFixture2" class="bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300 transition">위생기구 추가</button>
-
       <div id="containerFixtures2" class="space-y-2"></div>
 
       <div class="flex justify-between mt-6">
