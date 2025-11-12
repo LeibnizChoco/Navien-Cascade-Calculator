@@ -30,16 +30,27 @@
                class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1">기계실 위치 (층)</label>
-          <input id="etMachineRoomFloor4" type="number" placeholder="예) 4"
-                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      <!-- 기계실 위치: 스피너 + 층수 -->
+      <div>
+        <label class="block text-sm font-medium mb-1">기계실 위치</label>
+        <div class="grid grid-cols-2 gap-3">
+          <select id="spinnerMachineRoom4"
+                  class="border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          </select>
+          <input id="etMachineRoomFloor4" type="number" placeholder="예) 3"
+                 class="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
         </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">세대 시작 층수 (층)</label>
-          <input id="etStartFloor4" type="number" placeholder="예) 3"
-                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+
+      <!-- 세대 시작 위치: 스피너 + 시작층 -->
+      <div>
+        <label class="block text-sm font-medium mb-1">세대 시작 위치</label>
+        <div class="grid grid-cols-2 gap-3">
+          <select id="spinnerStartFloor4"
+                  class="border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          </select>
+          <input id="etStartFloor4" type="number" placeholder="예) 5"
+                 class="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
         </div>
       </div>
 
