@@ -1,46 +1,146 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>급탕 캐스케이드 검토 - 방식3 (기구별 토수량)</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-  <div class="max-w-[700px] mx-auto bg-white rounded-2xl shadow-lg p-6 mt-6 mb-10">
-    <h1 class="text-xl font-bold mb-4 text-gray-800">급탕 캐스케이드 검토 - 방식3 (기구별 토수량)</h1>
-
-    <div class="space-y-4">
-      <button id="btnAddFixture3" class="bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300 transition">위생기구 추가</button>
-      <div id="containerFixtures3" class="space-y-2"></div>
-
-      <div>
-        <label class="block text-sm font-medium mb-1">배관 왕복 길이 (m)</label>
-        <input id="etPipeLength" type="number" step="0.1" placeholder="배관왕복길이를 입력하세요"
-               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+<body class="bg-slate-100 text-slate-800">
+  <div class="min-h-screen flex flex-col">
+    <!-- 상단 바 -->
+    <header class="bg-sky-900 text-white shadow">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <h1 class="text-base md:text-lg font-semibold">
+          급탕 – 순간식 : 급탕 기구별 토수량
+        </h1>
+        <a href="dhw.html" class="text-xs underline decoration-dotted">
+          ← 급탕 메인
+        </a>
       </div>
+    </header>
 
-      <div class="flex justify-between mt-6">
-        <a href="dhw.html" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">이전</a>
-        <button id="btnMethod3Calculate" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">계산</button>
+    <main class="flex-1">
+      <div class="max-w-5xl mx-auto px-4 py-6 space-y-6">
+
+        <!-- 안내 문구 (다른 방식과 통일) -->
+        <p class="text-xs text-slate-500">
+          * 본 캐스케이드 계산기는 <span class="font-semibold">현장 간이 검토</span>를 위한 계산기입니다.<br />
+          * 정확한 검토가 필요하시면 지사 담당자 / 엔지니어링팀 담당자에게 문의 바랍니다.
+        </p>
+
+        <!-- 입력 카드 -->
+        <section
+          class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-6 space-y-4"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <h2 class="text-sm md:text-base font-semibold">
+              ■ 위생기구 입력 / 배관 길이
+            </h2>
+            <!-- 위생기구 추가 버튼 -->
+            <button
+              id="btnAddFixture3"
+              type="button"
+              class="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-slate-300 bg-slate-50 text-xs md:text-sm font-semibold hover:bg-slate-100 active:scale-95"
+            >
+              위생기구 추가 +
+            </button>
+          </div>
+
+          <!-- 위생기구 리스트 -->
+          <div class="space-y-2">
+            <p class="text-[11px] text-slate-500">
+              * “위생기구 추가 +” 버튼으로 기구를 추가하고, 각 기구별 토수량/시간 등을 입력합니다.
+            </p>
+            <div id="containerFixtures3" class="space-y-2">
+              <!-- dhw-method3.js에서 동적으로 행을 추가 -->
+            </div>
+          </div>
+
+          <!-- 배관 왕복 길이 -->
+          <div class="pt-3 border-t border-dashed border-slate-200 space-y-2">
+            <label
+              class="block text-xs md:text-sm font-medium text-slate-700"
+              for="etPipeLength"
+            >
+              배관 왕복 길이 (m)
+            </label>
+            <input
+              id="etPipeLength"
+              type="number"
+              step="0.1"
+              placeholder="배관 왕복 길이를 입력하세요"
+              class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+
+          <!-- 버튼 영역 -->
+          <div class="pt-3 flex flex-wrap gap-2 justify-between border-t border-dashed border-slate-200">
+            <a
+              href="dhw.html"
+              class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs md:text-sm bg-white hover:bg-slate-50 inline-flex items-center"
+            >
+              이전
+            </a>
+            <div class="flex gap-2">
+              <button
+                id="btnMethod3Reset"
+                type="button"
+                class="px-3 py-1.5 rounded-lg border border-rose-200 text-xs md:text-sm text-rose-700 bg-rose-50 hover:bg-rose-100"
+              >
+                리셋
+              </button>
+              <button
+                id="btnMethod3Calculate"
+                type="button"
+                class="px-4 py-1.5 rounded-lg bg-sky-600 text-white text-xs md:text-sm font-semibold hover:bg-sky-700"
+              >
+                계산
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 결과 카드 -->
+        <section
+          class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-6 space-y-4"
+        >
+          <h2 class="text-sm md:text-base font-semibold">
+            ■ 계산결과
+          </h2>
+
+          <div class="space-y-2 text-xs md:text-sm text-slate-800">
+            <div class="flex justify-between gap-4">
+              <span>급탕부하</span>
+              <span id="tv3EquipmentLoad" class="font-medium">-- kcal/h</span>
+            </div>
+            <div class="flex justify-between gap-4">
+              <span>캐스케이드 수량</span>
+              <span id="tv3EquipmentCascade" class="font-medium">-- 대</span>
+            </div>
+            <div class="flex justify-between gap-4">
+              <span>장비용량</span>
+              <span id="tv3EquipmentCapacity" class="font-medium">-- kcal/h</span>
+            </div>
+            <div class="flex justify-between gap-4">
+              <span>환탕펌프 유량</span>
+              <span id="tv3PumpFlow" class="font-medium">-- Lpm</span>
+            </div>
+            <div class="flex justify-between gap-4">
+              <span>환탕펌프 양정</span>
+              <span id="tv3PumpHead" class="font-medium">-- m</span>
+            </div>
+            <div class="flex justify-between gap-4">
+              <span>팽창탱크 용량</span>
+              <span id="tv3TankCapacity" class="font-medium">-- L</span>
+            </div>
+          </div>
+        </section>
+
       </div>
+    </main>
 
-      <button id="btnMethod3Reset" class="mt-4 px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition">리셋</button>
-
-      <hr class="my-6">
-
-      <h2 class="text-lg font-semibold mb-2">결과</h2>
-      <div class="space-y-2 text-sm text-gray-700">
-        <div class="flex justify-between"><span>급탕부하</span><span id="tv3EquipmentLoad">-- kcal/h</span></div>
-        <div class="flex justify-between"><span>캐스케이드 수량</span><span id="tv3EquipmentCascade">-- 대</span></div>
-        <div class="flex justify-between"><span>장비용량</span><span id="tv3EquipmentCapacity">-- kcal/h</span></div>
-        <div class="flex justify-between"><span>환탕펌프 유량</span><span id="tv3PumpFlow">-- Lpm</span></div>
-        <div class="flex justify-between"><span>환탕펌프 양정</span><span id="tv3PumpHead">-- m</span></div>
-        <div class="flex justify-between"><span>팽창탱크 용량</span><span id="tv3TankCapacity">-- L</span></div>
-      </div>
-    </div>
+    <script src="dhw-method3.js"></script>
   </div>
-
-  <script src="dhw-method3.js"></script>
 </body>
 </html>
