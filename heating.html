@@ -202,81 +202,89 @@
           </section>
 
           <!-- ========== Page 2 ========== -->
-          <section class="page" id="page2" style="display:none;">
-            <div
-              class="fixed-title text-sm md:text-base font-semibold text-slate-900 border-b border-slate-200 pb-3 mb-4"
-            >
-              [2. 배관 정보 입력]
-            </div>
-            <div class="scrollable space-y-4">
-              <!-- 1페이지에서 채워 넣는 필드 (숨김/읽기전용) -->
-              <input id="pipeBuildingPurpose" type="text" class="hidden" readonly />
+<section class="page" id="page2" style="display:none;">
+  <div
+    class="fixed-title text-sm md:text-base font-semibold text-slate-900 border-b border-slate-200 pb-3 mb-4"
+  >
+    [2. 배관 정보 입력]
+  </div>
+  <div class="scrollable space-y-4">
+    <!-- 1페이지에서 채워 넣는 필드 (숨김/읽기전용) -->
+    <input id="pipeBuildingPurpose" type="text" class="hidden" readonly />
 
-              <!-- 단위 난방 부하 -->
-              <div class="space-y-1">
-                <label
-                  class="block text-xs md:text-sm font-medium text-slate-700"
-                  for="unitHeatingLoad"
-                >
-                  단위 난방 부하(kcal/hr)
-                </label>
-                <input
-                  id="unitHeatingLoad"
-                  type="number"
-                  class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
-                />
-                <div class="text-[11px] text-slate-500 mt-1">
-                  한국지역난방공사 열사용 시설 기준. 필요 시 수정 가능합니다.
-                </div>
-              </div>
+    <!-- 단위 난방 부하 -->
+    <div class="space-y-1">
+      <label
+        class="block text-xs md:text-sm font-medium text-slate-700"
+        for="unitHeatingLoad"
+      >
+        단위 난방 부하(kcal/hr)
+      </label>
+      <input
+        id="unitHeatingLoad"
+        type="number"
+        class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+      />
+      <div class="text-[11px] text-slate-500 mt-1">
+        한국지역난방공사 열사용 시설 기준. 필요 시 수정 가능합니다.
+      </div>
+    </div>
 
-              <!-- 안전율 -->
-              <div class="space-y-1">
-                <label
-                  class="block text-xs md:text-sm font-medium text-slate-700"
-                  for="safetyRate"
-                >
-                  안전율(%)
-                </label>
-                <input
-                  id="safetyRate"
-                  type="number"
-                  value="20"
-                  class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
-                />
-              </div>
+    <!-- 안전율 -->
+    <div class="space-y-1">
+      <label
+        class="block text-xs md:text-sm font-medium text-slate-700"
+        for="safetyRate"
+      >
+        안전율(%)
+      </label>
+      <input
+        id="safetyRate"
+        type="number"
+        value="20"
+        class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+      />
+    </div>
 
-              <!-- 배관 최장 루프 길이 -->
-              <div class="space-y-1">
-                <label
-                  class="block text-xs md:text-sm font-medium text-slate-700"
-                  for="longestPipeLength"
-                >
-                  배관 최장 루프 길이(m)
-                </label>
-                <input
-                  id="longestPipeLength"
-                  type="number"
-                  value="100"
-                  class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
-                />
-              </div>
+    <!-- 배관 최장 루프 길이 -->
+    <div class="space-y-1">
+      <label
+        class="block text-xs md:text-sm font-medium text-slate-700"
+        for="longestPipeLength"
+      >
+        배관 최장 루프 길이(m)
+      </label>
+      <input
+        id="longestPipeLength"
+        type="number"
+        value="100"
+        class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+      />
+      <div class="text-[11px] text-slate-500 mt-1">
+        기본 100m로 설정되어있으며, 불확실한 경우에는 '0'을 입력하세요.
+      </div>
+    </div>
 
-              <!-- 세대 내 난방 코일 길이 -->
-              <div class="space-y-1">
-                <label
-                  class="block text-xs md:text-sm font-medium text-slate-700"
-                  for="heatingCoilLength"
-                >
-                  세대 내 난방 코일 길이(m)
-                </label>
-                <input
-                  id="heatingCoilLength"
-                  type="number"
-                  value="80"
-                  class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
-                />
-              </div>
+    <!-- 세대 내 난방 코일 길이 -->
+    <div class="space-y-1">
+      <label
+        class="block text-xs md:text-sm font-medium text-slate-700"
+        for="heatingCoilLength"
+      >
+        세대 내 난방 코일 길이(m)
+      </label>
+      <input
+        id="heatingCoilLength"
+        type="number"
+        value="80"
+        class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+      />
+      <div class="text-[11px] text-slate-500 mt-1">
+        기본 80m로 설정되어있으며, 불확실한 경우에는 '0'을 입력하세요.
+      </div>
+    </div>
+
+
 
               <!-- 부속류 총 압력손실 -->
               <div class="space-y-1">
@@ -502,3 +510,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
