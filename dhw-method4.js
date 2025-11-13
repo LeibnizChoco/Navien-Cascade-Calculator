@@ -450,3 +450,178 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "업무용건물":
         loadPerUnit = [7.6, 23, 114, 0, 76, 76, 228, 0];
+        simultaneousRate = 0.4;
+        tankCoeff = 2.0;
+        break;
+      case "주택":
+        loadPerUnit = [7.6, 0, 114, 76, 38, 57, 57, 76];
+        simultaneousRate = 0.4;
+        tankCoeff = 0.7;
+        break;
+      case "학교":
+        loadPerUnit = [7.6, 57, 284, 0, 76, 76, 228, 0];
+        simultaneousRate = 0.3;
+        tankCoeff = 1.0;
+        break;
+      default:
+        alert("알 수 없는 건물용도입니다.");
+        return;
+    }
+
+    // 시간당 급탕량 = Σ(기구수량 × 해당단위 급탕량) × 동시사용률
+    let hourlyLoad = 0; // L/h
+    types.forEach((t, i) => {
+      const idx = FIXTURE_OPTIONS.indexOf(t);
+      if (idx >= 0) {
+        hourlyLoad += counts[i] * loadPerUnit[idx];
+      }
+    });
+    hourlyLoad *= simultaneousRate;
+
+    // 급탕부하 (kcal/h) = 시간당 급탕량 × 45
+    const totalLoad4 = hourlyLoad * 45.0;
+
+    // 3) 상태 저장 (입력값 기준)
+    saveState({
+      width,
+      length,
+      aboveFloors,
+      machineRoomLoc,
+      machineRoomFloor,
+      startFloorLoc,
+      startFloorNum,
+      buildingUsage: usage,
+      fixtures: types.map((t, i) => ({ type: t, count: counts[i] })),
+    });
+
+    // 4) 결과 계산 (Method4ResultActivity 로직)
+
+    // 장비수량 및 용량
+    const cascadeCount = Math.ceil(totalLoad4 / 48000.0);
+    const equipmentCapacity = cascadeCount * 48000;
+
+    // 저탕탱크 용량
+    // (ResultActivity는 buildingUsage로 tank_coefficients 배열에서 다시 찾지만
+    // 여기서는 이미 tankCoeff가 있으므로 그대로 사용)
+    const rawTank = (hourlyLoad * tankCoeff) / 1000.0; // ton
+    const roundedTank = Math.round(rawTank * 10.0) / 10.0;
+
+    // 환탕펌프
+    const rawFlow = (cascadeCount * 10.0 * 1.5) / 2.0;
+    const flowOneDec = Math.ceil(rawFlow * 10.0) / 10.0;
+    const flowLpm = Math.ceil(flowOneDec);
+
+    const part1 = (width + length) * 0.5;
+    const part2 = machineRoomFloor * 4.0 + aboveFloors * 3.0;
+    const part3 = (width + length) * 0.5;
+    const rawHead = (part1 + part2 + part3) * 2 * 1.5 * 0.02;
+    const headCeil2 = Math.ceil(rawHead * 100.0) / 100.0;
+
+    // 대류펌프
+    const convFlow = Math.ceil(cascadeCount * 20.0);
+    const convHead = 15.0;
+
+    // 배관경 계산
+    // 1차측 주배관
+    const Qfirst = (cascadeCount * 20.0) / 60.0 / 1000.0; // m3/s
+    const calcFirst = calcPipeDiameter(Qfirst);
+    const firstPipe = selectPipeFromDia(calcFirst);
+
+    // 급탕 주배관
+    const Qhot = (hourlyLoad * 1.5) / 3600.0 / 1000.0;
+    const calcHotMain = calcPipeDiameter(Qhot);
+    const hotPipe = selectPipeFromDia(calcHotMain);
+
+    // 환탕 주배관
+    const Qret = flowLpm / 60.0 / 1000.0;
+    const calcRet = calcPipeDiameter(Qret);
+    const retPipe = selectPipeFromDia(calcRet);
+
+    // 팽창탱크 계산
+    const pi = Math.PI;
+    const startFloor = startFloorNum;
+    const machineFloor = machineRoomFloor;
+
+    const mpInner = firstPipe.selDia; // mm
+    const rpInner = retPipe.selDia; // mm
+
+    const A1 =
+      (pi * Math.pow(mpInner / 1000.0, 2)) / 4.0 * 1000.0;
+    const vol1 =
+      A1 * (width + length) * 0.7 +
+      A1 * (machineFloor * 4 + (startFloor - 1) * 3);
+
+    const A2 =
+      (pi * Math.pow((mpInner / 1000.0) * 0.8, 2)) / 4.0 * 1000.0;
+    const vol2 = A2 * (aboveFloors - startFloor + 1) * 3;
+
+    const A3 =
+      (pi * Math.pow((mpInner / 1000.0) * 0.8, 2)) / 4.0 * 1000.0;
+    const vol3 =
+      A3 * (width + length) * 0.8 * (aboveFloors - startFloor + 1);
+
+    const B1 =
+      (pi * Math.pow(rpInner / 1000.0, 2)) / 4.0 * 1000.0;
+    const vol4 =
+      B1 * (width + length) * 0.7 +
+      B1 * (machineFloor * 4 + (startFloor - 1) * 3);
+
+    const B2 =
+      (pi * Math.pow((rpInner / 1000.0) * 0.8, 2)) / 4.0 * 1000.0;
+    const vol5 = B2 * (aboveFloors - startFloor + 1) * 3;
+
+    const B3 =
+      (pi * Math.pow((rpInner / 1000.0) * 0.8, 2)) / 4.0 * 1000.0;
+    const vol6 =
+      B3 * (width + length) * 0.8 * (aboveFloors - startFloor + 1);
+
+    const vol7 = roundedTank * 1000.0; // 톤 → L
+
+    const totalVol = vol1 + vol2 + vol3 + vol4 + vol5 + vol6 + vol7;
+    const expVol = totalVol * 0.01678;
+
+    const minPress =
+      ((machineFloor * 4 + aboveFloors * 3) +
+        (machineFloor * 4 + aboveFloors * 3) * 1.5 * 0.03 +
+        20) /
+      10.0;
+    const effCoeff = 1.5 / (minPress + 1.03);
+    const etCapRounded = Math.round(expVol / effCoeff);
+
+    // 5) 화면에 표시
+
+    // 장비/저탕탱크
+    tvEquipmentLoad.textContent = `${fmtInt(Math.round(totalLoad4))} kcal/h`;
+    tvEquipmentCascade.textContent = `${fmtInt(cascadeCount)} 대`;
+    tvEquipmentCapacity.textContent = `${fmtInt(equipmentCapacity)} kcal/h`;
+    tvTankCapacity.textContent = `${fmt1(roundedTank)} 톤`;
+
+    // 펌프류
+    tvPumpFlow.textContent = `${fmtInt(flowLpm)} Lpm`;
+    tvPumpHead.textContent = `${fmt1(headCeil2)} m`;
+    tvConvPumpFlow.textContent = `${fmtInt(convFlow)} Lpm`;
+    tvConvPumpHead.textContent = `${fmt1(convHead)} m`;
+    tvExpansionTankCapacity.textContent = `${fmtInt(etCapRounded)} L`;
+
+    // 배관경 – 1차 주배관
+    tvFirstPipeInner.textContent = `${fmt1(firstPipe.calcDia)} mm`;
+    tvFirstPipeNominal.textContent = `${firstPipe.selNom} A`;
+    tvFirstPipeOuter.textContent = `${fmt1(firstPipe.selDia)} mm`;
+
+    // 배관경 – 급탕 주배관
+    tvHotMainPipeInner.textContent = `${fmt1(hotPipe.calcDia)} mm`;
+    tvHotMainPipeNominal.textContent = `${hotPipe.selNom} A`;
+    tvHotMainPipeOuter.textContent = `${fmt1(hotPipe.selDia)} mm`;
+
+    // 배관경 – 환탕 주배관
+    tvReturnPipeInner.textContent = `${fmt1(retPipe.calcDia)} mm`;
+    tvReturnPipeNominal.textContent = `${retPipe.selNom} A`;
+    tvReturnPipeOuter.textContent = `${fmt1(retPipe.selDia)} mm`;
+
+    // 결과 카드로 스크롤 약간 내려주기 (모바일 배려)
+    const resultCard = document.getElementById("method4-result-card");
+    if (resultCard) {
+      resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+});
