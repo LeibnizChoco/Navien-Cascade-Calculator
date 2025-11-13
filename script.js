@@ -228,8 +228,8 @@ function setupEventHandlers() {
 
   // Page2 기본값
   if (document.getElementById("safetyRate")) document.getElementById("safetyRate").value = 20;
-  if (document.getElementById("longestPipeLength")) document.getElementById("longestPipeLength").value = 100;
-  if (document.getElementById("heatingCoilLength")) document.getElementById("heatingCoilLength").value = 80;
+  if (document.getElementById("longestPipeLength")) document.getElementById("longestPipeLength").value = 0;
+  if (document.getElementById("heatingCoilLength")) document.getElementById("heatingCoilLength").value = 0;
 
   if (document.getElementById("prevPage2")) document.getElementById("prevPage2").onclick = () => showPage(1);
   if (document.getElementById("nextPage2")) document.getElementById("nextPage2").onclick = () => {
@@ -383,4 +383,5 @@ window.onload = () => {
   setupEventHandlers();
 
 }; 
+
 
