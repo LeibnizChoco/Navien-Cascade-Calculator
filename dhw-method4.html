@@ -1,94 +1,234 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>급탕 캐스케이드 검토 - 방식4 (저탕탱크)</title>
+  <meta charset="UTF-8" />
+  <title>급탕 방식 4 - 저탕탱크 방식</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tailwind CDN (프로젝트에서 이미 글로벌로 쓰고 있다면 중복 로딩은 제거해도 됨) -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="dhw-method4.js"></script>
 </head>
-<body class="bg-gray-100">
-  <div class="max-w-[700px] mx-auto bg-white rounded-2xl shadow-lg p-6 mt-6 mb-10">
-    <h1 class="text-xl font-bold mb-4 text-gray-800">급탕 캐스케이드 검토 - 방식4 (저탕탱크)</h1>
+<body class="bg-slate-100 text-slate-900">
+  <main class="max-w-6xl mx-auto px-4 py-6 space-y-4">
+    <!-- 제목 & 안내 -->
+    <header class="space-y-2">
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-900">
+        급탕 – 방식 4 : 저탕탱크 방식
+      </h1>
+      <p class="text-sm text-slate-600">
+        이 페이지는 Android용 <strong>Method4InputActivity / Method4ResultActivity</strong>를
+        웹 버전으로 변환한 화면입니다. (동일한 계산 로직 적용)
+      </p>
+    </header>
 
-    <div class="space-y-4">
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1">건물의 가로폭 (m)</label>
-          <input id="etWidth4" type="number" placeholder="예) 40"
-                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+    <!-- 메인 레이아웃 (입력 / 결과 2열) -->
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- 입력 카드 -->
+      <section id="method4-input-card"
+               class="bg-white rounded-xl shadow p-5 space-y-4 border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-900">
+          ■ 현장정보 / 위생기구 입력
+        </h2>
+
+        <!-- 건물 정보 -->
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="input-width4" class="block text-sm font-medium text-slate-700">
+                건물의 가로폭 (m)
+              </label>
+              <input id="input-width4" type="number" inputmode="decimal"
+                     class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="예) 40" />
+            </div>
+            <div>
+              <label for="input-length4" class="block text-sm font-medium text-slate-700">
+                건물의 세로폭 (m)
+              </label>
+              <input id="input-length4" type="number" inputmode="decimal"
+                     class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="예) 20" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="input-aboveFloors4" class="block text-sm font-medium text-slate-700">
+                건물의 지상 층수 (총)
+              </label>
+              <input id="input-aboveFloors4" type="number" inputmode="numeric"
+                     class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="예) 10" />
+            </div>
+          </div>
+
+          <!-- 기계실 위치 -->
+          <div class="space-y-1">
+            <label class="block text-sm font-medium text-slate-700">
+              기계실 위치 (층)
+            </label>
+            <div class="grid grid-cols-2 gap-3">
+              <select id="select-machineRoomLoc4"
+                      class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <option value="지하">지하</option>
+                <option value="지상">지상</option>
+              </select>
+              <input id="input-machineRoomFloor4" type="number" inputmode="numeric"
+                     class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                     placeholder="예) 4" />
+            </div>
+          </div>
+
+          <!-- 세대 시작 층수 -->
+          <div class="space-y-1">
+            <label class="block text-sm font-medium text-slate-700">
+              세대 시작 층수 (층)
+            </label>
+            <div class="grid grid-cols-2 gap-3">
+              <select id="select-startFloorLoc4"
+                      class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <option value="지상">지상</option>
+                <option value="지하">지하</option>
+              </select>
+              <input id="input-startFloor4" type="number" inputmode="numeric"
+                     class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                     placeholder="예) 3" />
+            </div>
+          </div>
         </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">건물의 세로폭 (m)</label>
-          <input id="etLength4" type="number" placeholder="예) 20"
-                 class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+
+        <!-- 위생기구 입력 -->
+        <div class="pt-3 border-t border-dashed border-slate-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-semibold text-slate-900">
+              ■ 위생기구 입력
+            </h3>
+            <button id="btn-add-fixture4" type="button"
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-emerald-500 text-emerald-700 text-xl font-bold hover:bg-emerald-50">
+              +
+            </button>
+          </div>
+          <p class="text-xs text-slate-500">
+            행 옆 <span class="font-mono">–</span> 버튼을 누르면 해당 위생기구 행이 삭제됩니다.
+          </p>
+
+          <div id="fixture-rows4" class="space-y-2">
+            <!-- 동적 행이 여기 추가됨 -->
+          </div>
         </div>
-      </div>
 
-      <div>
-        <label class="block text-sm font-medium mb-1">건물의 지상 층수 (총)</label>
-        <input id="etAboveFloors4" type="number" placeholder="예) 10"
-               class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
-      </div>
-
-      <!-- 기계실 위치: 스피너 + 층수 -->
-      <div>
-        <label class="block text-sm font-medium mb-1">기계실 위치</label>
-        <div class="grid grid-cols-2 gap-3">
-          <select id="spinnerMachineRoom4"
-                  class="border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        <!-- 건물용도 선택 -->
+        <div class="pt-3 border-t border-dashed border-slate-200 space-y-2">
+          <label for="select-buildingUsage4" class="block text-sm font-medium text-slate-700">
+            건물용도 선택
+          </label>
+          <select id="select-buildingUsage4"
+                  class="mt-1 w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <!-- JS에서 option 채움 (arrays.xml 기반) -->
           </select>
-          <input id="etMachineRoomFloor4" type="number" placeholder="예) 3"
-                 class="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
         </div>
-      </div>
 
-      <!-- 세대 시작 위치: 스피너 + 시작층 -->
-      <div>
-        <label class="block text-sm font-medium mb-1">세대 시작 위치</label>
-        <div class="grid grid-cols-2 gap-3">
-          <select id="spinnerStartFloor4"
-                  class="border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
-          </select>
-          <input id="etStartFloor4" type="number" placeholder="예) 5"
-                 class="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        <!-- 버튼 영역 -->
+        <div class="pt-4 border-t border-dashed border-slate-200 flex flex-wrap gap-2">
+          <button id="btnMethod4Back" type="button"
+                  class="px-4 py-2 text-sm rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">
+            이전
+          </button>
+          <button id="btnMethod4Calculate" type="button"
+                  class="px-4 py-2 text-sm rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700">
+            계산
+          </button>
+          <button id="btnMethod4Reset" type="button"
+                  class="px-3 py-2 text-xs rounded-lg border border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100">
+            리셋
+          </button>
         </div>
-      </div>
+      </section>
 
-      <button id="btnAddFixture4" class="bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300 transition">위생기구 추가</button>
-      <div id="containerFixtures4" class="space-y-2"></div>
+      <!-- 결과 카드 -->
+      <section id="method4-result-card"
+               class="bg-white rounded-xl shadow p-5 space-y-4 border border-slate-100">
+        <div class="flex items-center justify-between gap-2">
+          <h2 class="text-lg font-semibold text-slate-900">
+            ■ 계산결과
+          </h2>
+          <button id="btnMethod4ResultBack" type="button"
+                  class="px-3 py-1.5 text-xs rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">
+            입력 영역으로 이동
+          </button>
+        </div>
 
-      <div>
-        <label class="block text-sm font-medium mb-1">건물용도 선택</label>
-        <select id="spinnerBuildingUsage"
-                class="w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
-          <option>공동주택</option>
-          <option>호텔</option>
-          <option>병원</option>
-        </select>
-      </div>
+        <!-- 장비용량 -->
+        <div class="space-y-1">
+          <p class="text-sm font-semibold text-slate-800">> 장비용량</p>
+          <dl class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <dt class="text-slate-700">급탕부하</dt>
+              <dd id="tv4EquipmentLoad" class="font-mono text-slate-900">-- kcal/h</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-slate-700">급탕 캐스케이드 수량</dt>
+              <dd id="tv4EquipmentCascade" class="font-mono text-slate-900">-- 대</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-slate-700">장비용량</dt>
+              <dd id="tv4EquipmentCapacity" class="font-mono text-slate-900">-- kcal/h</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-slate-700">저탕탱크 용량</dt>
+              <dd id="tv4TankCapacity" class="font-mono text-slate-900">-- 톤</dd>
+            </div>
+          </dl>
+        </div>
 
-      <div class="flex justify-between mt-6">
-        <a href="dhw.html" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">이전</a>
-        <button id="btnMethod4Calculate" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">계산</button>
-      </div>
+        <!-- 주변기기류 -->
+        <div class="pt-3 border-t border-dashed border-slate-200 space-y-1">
+          <p class="text-sm font-semibold text-slate-800">> 주변기기류</p>
+          <dl class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <dt class="text-slate-700">환탕펌프 유량</dt>
+              <dd id="tv4PumpFlow" class="font-mono text-slate-900">-- Lpm</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-slate-700">환탕펌프 양정</dt>
+              <dd id="tv4PumpHead" class="font-mono text-slate-900">-- m</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-slate-700">대류펌프 유량</dt>
+              <dd id="tv4ConvPumpFlow" class="font-mono text-slate-900">-- Lpm</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-slate-700">대류펌프 양정</dt>
+              <dd id="tv4ConvPumpHead" class="font-mono text-slate-900">-- m</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-slate-700">팽창탱크 용량</dt>
+              <dd id="tv4ExpansionTankCapacity" class="font-mono text-slate-900">-- L</dd>
+            </div>
+          </dl>
+        </div>
 
-      <button id="btnMethod4Reset" class="mt-4 px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition">리셋</button>
+        <!-- 배관경 -->
+        <div class="pt-3 border-t border-dashed border-slate-200 space-y-2">
+          <p class="text-sm font-semibold text-slate-800">> 배관경</p>
 
-      <hr class="my-6">
+          <!-- 1차 주배관 -->
+          <div class="space-y-1">
+            <p class="text-xs font-medium text-slate-600 italic">
+              1차 주배관경 (온수기 ↔ 저탕탱크)
+            </p>
+            <dl class="space-y-1 text-sm">
+              <div class="flex justify-between">
+                <dt class="text-slate-700">계산내경</dt>
+                <dd id="tv4FirstPipeInner" class="font-mono text-slate-900">-- mm</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-slate-700">선정호칭</dt>
+                <dd id="tv4FirstPipeNominal" class="font-mono text-slate-900">-- A</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-slate-700">선정내경</dt>
+                <dd id="tv4FirstPipeOuter" class="font-mono text-slate-900">-- mm</dd>
+              </div>
+            </dl>
+          </div>
 
-      <h2 class="text-lg font-semibold mb-2">결과</h2>
-      <div class="space-y-2 text-sm text-gray-700">
-        <div class="flex justify-between"><span>급탕부하</span><span id="tv4EquipmentLoad">-- kcal/h</span></div>
-        <div class="flex justify-between"><span>캐스케이드 수량</span><span id="tv4EquipmentCascade">-- 대</span></div>
-        <div class="flex justify-between"><span>장비용량</span><span id="tv4EquipmentCapacity">-- kcal/h</span></div>
-        <div class="flex justify-between"><span>저탕탱크 용량</span><span id="tv4TankCapacity">-- 톤</span></div>
-        <div class="flex justify-between"><span>환탕펌프 유량</span><span id="tv4PumpFlow">-- Lpm</span></div>
-        <div class="flex justify-between"><span>환탕펌프 양정</span><span id="tv4PumpHead">-- m</span></div>
-        <div class="flex justify-between"><span>팽창탱크 용량</span><span id="tv4ExpansionTankCapacity">-- L</span></div>
-      </div>
-    </div>
-  </div>
-
-  <script src="dhw-method4.js"></script>
-</body>
-</html>
+          <!-- 급탕 주배관 -->
+          <div class="space-y-1">
